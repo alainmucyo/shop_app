@@ -9,6 +9,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
     final cart = Provider.of<Cart>(context, listen: false);
+    final scaffold = Scaffold.of(context);
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
@@ -26,13 +27,20 @@ class ProductItem extends StatelessWidget {
             ),
           ),
           footer: GridTileBar(
-            backgroundColor: Colors.black54,
+            backgroundColor: Colors.black87,
             leading: IconButton(
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: Theme.of(context).accentColor,
               ),
-              onPressed: () => product.toggleFavorite(),
+              onPressed: () async {
+                try {
+                  await product.toggleFavorite();
+                } catch (err) {
+                  scaffold
+                      .showSnackBar(SnackBar(content: Text(err.toString())));
+                }
+              },
             ),
             title: Text(
               product.title,

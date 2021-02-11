@@ -4,9 +4,13 @@ import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/orders.dart';
 import 'package:shop_app/providers/products.dart';
 import 'package:shop_app/screens/cart_screen.dart';
+import 'package:shop_app/screens/edit_products_screen.dart';
+import 'package:shop_app/screens/edit_products_screen.dart';
 import 'package:shop_app/screens/orders_screen.dart';
 import 'package:shop_app/screens/product_details_screen.dart';
 import 'package:shop_app/screens/products_overview_screen.dart';
+import 'package:shop_app/screens/user_products_screen.dart';
+import 'package:shop_app/screens/user_products_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,8 +29,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          accentColor: Colors.orangeAccent,
+          primarySwatch: Colors.purple,
+          accentColor: Colors.orange,
           fontFamily: "Lato",
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
@@ -36,6 +40,8 @@ class MyApp extends StatelessWidget {
           ProductDetailsScreen.routeName: (_) => ProductDetailsScreen(),
           CartScreen.routeName: (_) => CartScreen(),
           OrdersScreen.routeName: (_) => OrdersScreen(),
+          UserProductsScreen.routeName: (_) => UserProductsScreen(),
+          EditProductsScreen.routeName: (_) => EditProductsScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),
