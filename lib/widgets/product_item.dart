@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/auth.dart';
 import 'package:shop_app/providers/cart.dart';
 import 'package:shop_app/providers/product.dart';
 import 'package:shop_app/screens/product_details_screen.dart';
@@ -12,18 +13,22 @@ class ProductItem extends StatelessWidget {
     final scaffold = Scaffold.of(context);
     return Card(
       elevation: 6,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(6),
         child: GridTile(
           child: InkWell(
             onTap: () => Navigator.of(context).pushNamed(
               ProductDetailsScreen.routeName,
               arguments: product.id,
             ),
-            child: Image.network(
-              product.imageUrl,
-              fit: BoxFit.cover,
+            child: Hero(
+              tag: 'image-${product.id}',
+              child: FadeInImage(
+                placeholder: AssetImage("assets/images/product-placeholder.png"),
+                image: NetworkImage(product.imageUrl),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           footer: GridTileBar(
@@ -35,7 +40,9 @@ class ProductItem extends StatelessWidget {
               ),
               onPressed: () async {
                 try {
-                  await product.toggleFavorite();
+                  final authData =
+                      Provider.of<AuthProvider>(context, listen: false);
+                  await product.toggleFavorite(authData.token, authData.userId);
                 } catch (err) {
                   scaffold
                       .showSnackBar(SnackBar(content: Text(err.toString())));
